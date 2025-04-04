@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
-import app from './config/app';
+import express from 'express'; 
+import app from './config/app'; 
 import connectDB from './config/db';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -7,7 +8,6 @@ import swaggerJSDoc from 'swagger-jsdoc';
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
-// Swagger Configuration
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -22,7 +22,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./routes/*.js"], // Adjust path to your route files if needed
+  apis: ["./routes/authRoutes.ts"], // Adjust path to your route files if needed
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
