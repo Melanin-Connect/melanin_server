@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Blog from '../models/Blog';
+import Blog from '../models/blogModel';
 
 // Get all blogs
 export const getBlogs = async (req: Request, res: Response): Promise<Response> => {
@@ -113,3 +113,6 @@ export const deleteBlog = async (req: Request, res: Response): Promise<Response>
         return res.status(500).json({ error: (error as Error).message });
     }
 };
+
+
+

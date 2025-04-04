@@ -9,6 +9,6 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.use('/api/blogs', blogRoutes);
+app.use('/api/blogs', blogRoutes,);
 
 export default app;
