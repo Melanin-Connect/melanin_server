@@ -7,7 +7,7 @@
 - Create, Read, Update, and Delete (CRUD) blog posts
 - Add and manage comments on blog posts
 - Like a blog post
-- User registration and login with JWT
+- User registration, login and logout with JWT
 - Role-based access control (`user` & `admin`)
 - Protected routes using authentication middleware
 - Prevent brute-force attacks using rate-limiting
@@ -56,6 +56,7 @@ npm run dev
 
 - `POST /api/auth/register` → Register a new user  
 - `POST /api/auth/login` → Login and receive a JWT token  
+- `POST /api/auth/logout` → Logout and invalidate the JWT token
 
 **Use the returned token in the header for protected routes:**
 
