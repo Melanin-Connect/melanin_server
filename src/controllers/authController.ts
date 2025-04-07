@@ -14,10 +14,8 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({ email, password: hashedPassword, role });  // Save role
+    const newUser = new User({ email, password, role });  // Save role
     await newUser.save();
 
     const token = jwt.sign(
@@ -26,7 +24,8 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
       { expiresIn: "1h" }
     );
 
-    res.status(201).json({ token, role: newUser.role });
+    res.status(201).json({ message: "User registered successfully",
+      token, role: newUser.role });
   } catch (error) {
     const err = error as Error;
     res.status(500).json({ message: "Server error", error: err.message });
@@ -40,13 +39,14 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(400).json({ message: "Invalid credentials" });
+      res.status(400).json({ message: "User not found" });
       return;
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
+
     if (!isMatch) {
-      res.status(400).json({ message: "Invalid credentials" });
+      res.status(400).json({ message: "Incorrect password" });
       return;
     }
 
@@ -56,9 +56,16 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ token, role: user.role });
+    res.status(200).json({ message: "Login successful",
+      token, role: user.role });
   } catch (error) {
     const err = error as Error;
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// Logout user
+export const logoutUser = (req: Request, res: Response): void => {
+  res.status(200).json({ message: "Logout successful" });
+};
+
