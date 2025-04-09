@@ -18,11 +18,11 @@ router.use(rateLimiter);
 router.get("/", asyncHandler(getBlogs));
 router.get("/:id",  asyncHandler(getBlogById));
 
-// Only admin and editor can create blogs
-router.post("/", authMiddleware, authorizeRoles("admin", "editor"), asyncHandler(createBlog));
+// Only admin can create blogs
+router.post("/", authMiddleware, authorizeRoles("admin"), asyncHandler(createBlog));
 
-// Only admin and editor can update blogs
-router.put("/:id", authMiddleware, authorizeRoles("admin", "editor"), asyncHandler(updateBlog));
+// Only admin can update blogs
+router.put("/:id", authMiddleware, authorizeRoles("admin"), asyncHandler(updateBlog));
 
 // Only admin can delete blogs
 router.delete("/:id", authMiddleware, authorizeRoles("admin"), asyncHandler(deleteBlog));
