@@ -15,7 +15,7 @@ const asyncHandler = (fn: Function) => (req: any, res: any, next: any) =>
 router.use(rateLimiter);
 
 // Open to all authenticated users
-router.get("/", authMiddleware, asyncHandler(getBlogs));
+router.get("/", asyncHandler(getBlogs));
 router.get("/:id", authMiddleware, asyncHandler(getBlogById));
 
 // Only admin and editor can create blogs

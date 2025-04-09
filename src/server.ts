@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import express from 'express'; 
 import app from './config/app'; 
 import connectDB from './config/db';
 import swaggerUi from 'swagger-ui-express';
