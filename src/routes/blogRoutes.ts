@@ -16,7 +16,7 @@ router.use(rateLimiter);
 
 // Open to all authenticated users
 router.get("/", asyncHandler(getBlogs));
-router.get("/:id", authMiddleware, asyncHandler(getBlogById));
+router.get("/:id",  asyncHandler(getBlogById));
 
 // Only admin and editor can create blogs
 router.post("/", authMiddleware, authorizeRoles("admin", "editor"), asyncHandler(createBlog));
