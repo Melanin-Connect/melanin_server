@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 interface AuthRequest extends Request {
-  user?: { userId: string; role: string }; // Include role
+  user?: { userId: string; role: string; email: string }; // Include role
 }
 
 const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -16,7 +16,7 @@ const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunctio
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string; role: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string; role: string; email: string };
     req.user = decoded;
     next();
   } catch (error) {
@@ -36,4 +36,15 @@ export const authorizeRoles = (...roles: string[]) => {
   };
 };
 
+// Middleware to check if the user is an admin
+export const isGeneralAdmin = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  const generalAdminEmail = process.env.GENERAL_ADMIN_EMAIL;
+  
+  if (!req.user || req.user.email !== generalAdminEmail) {
+     res.status(403).json({ message: "Forbidden: Only general admin can perform this action" });
+     return;
+  }
+  return next();
+  };
+  
 export default authMiddleware;

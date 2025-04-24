@@ -6,20 +6,20 @@ import User from "../models/User";
 // Register user
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password, role } = req.body; // Accept role from request
+    const { email, password} = req.body; // default role is "user"
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       res.status(400).json({ message: "User already exists" });
       return;
     }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-
-    const newUser = new User({ email, password, role });  // Save role
+    const newUser = new User({ email, password});  // Save 
     await newUser.save();
 
     const token = jwt.sign(
-      { userId: newUser._id, role: newUser.role }, // Include role in JWT
+      { userId: newUser._id, role: newUser.role, email: newUser.email }, // Include role in JWT
       process.env.JWT_SECRET!,
       { expiresIn: "1h" }
     );
@@ -51,7 +51,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     const token = jwt.sign(
-      { userId: user._id, role: user.role }, // Include role in JWT
+      { userId: user._id, role: user.role, email: user.email }, // Include role in JWT
       process.env.JWT_SECRET!,
       { expiresIn: "1h" }
     );
