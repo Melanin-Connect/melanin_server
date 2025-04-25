@@ -37,6 +37,7 @@ Create a `.env` file in the root directory and add the following:
 PORT=5000
 MONGO_URI=<your-mongodb-connection-string>
 JWT_SECRET=<your-jwt-secret-key>
+GENERAL_ADMIN_EMAIL=<your_general_email>
 ```
 
 ### 4️⃣ Start the development server
@@ -64,13 +65,12 @@ npm run dev
 Authorization: Bearer <your_token>
 ```
 
-Sample register body: `by default role set to user`
+Sample register body: `by default role set to `user` for every account `
 
 ```json
 {
   "email": "test@example.com",
-  "password": "securepassword123",
-  "role": "admin"   
+  "password": "yourpassword123"
 }
 ```
 
@@ -79,9 +79,32 @@ Sample login body:
 ```json
 {
   "email": "test@example.com",
-  "password": "securepassword123"
+  "password": "yourpassword123"
 }
 ```
+
+---
+# User Management API
+
+## 👥 User Management (Protected)
+
+### 🔧 General Admin Only
+- `PATCH /api/users/:id/role` → Promote a user to admin
+
+**Note:** These endpoints are accessible only to the general admin (`GENERAL_ADMIN_EMAIL`).
+
+---
+
+### Only Admin
+- `GET /api/users` → Get all users (protected)
+
+---
+
+## Security Guidelines
+- Access to general admin functionality is strictly limited to `GENERAL_ADMIN_EMAIL`.
+- All admin-related endpoints are protected to ensure secure and authorized access.
+
+
 
 ---
 
