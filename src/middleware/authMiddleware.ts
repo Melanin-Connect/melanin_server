@@ -40,11 +40,15 @@ export const authorizeRoles = (...roles: string[]) => {
 export const isGeneralAdmin = (req: AuthRequest, res: Response, next: NextFunction): void => {
   const generalAdminEmail = process.env.GENERAL_ADMIN_EMAIL;
   
-  if (!req.user || req.user.email !== generalAdminEmail) {
+  if (!req.user) {
+    res.status(401).json({ message: "unauthorized: No user data"});
+    return;
+  }
+  if ( req.user.email !== generalAdminEmail) {
      res.status(403).json({ message: "Forbidden: Only general admin can perform this action" });
      return;
   }
-  return next();
+   next();
   };
   
 export default authMiddleware;

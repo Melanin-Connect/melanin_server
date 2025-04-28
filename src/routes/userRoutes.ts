@@ -4,7 +4,7 @@ import authMiddleware, { isGeneralAdmin } from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.get("/", getAllUsers); // GET /api/users - List all users
+router.get("/", authMiddleware, isGeneralAdmin, getAllUsers); // GET /api/users - List all users by only general admin
 // ✅ PATCH /api/users/:id/role
 router.patch("/:id/role", authMiddleware, isGeneralAdmin, promoteUserToAdmin);
 
