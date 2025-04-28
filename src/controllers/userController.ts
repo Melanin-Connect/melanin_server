@@ -25,11 +25,11 @@ export const promoteUserToAdmin = async (req: Request, res: Response): Promise<v
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const users = await User.find({}, "_id email role"); // return only ID, email, and role
-    res.status(200).json(users);
-  } catch (error) {
-    const err = error as Error;
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-};
+    try {
+      const users = await User.find({}, "_id email role"); // only select necessary fields
+      res.status(200).json(users);
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({ message: "Server error", error: err.message });
+    }
+  };
