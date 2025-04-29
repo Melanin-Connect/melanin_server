@@ -1,12 +1,32 @@
 import mongoose, { Document } from "mongoose";
 import bcrypt from "bcrypt";
 
+//Notification type
+interface INotification {
+  message: string;
+  date: Date;
+  read: boolean;
+}
+
+// User type
 export interface IUser extends Document {
   email: string;
   password: string;
-  role: "user" | "admin" ;  // New: Role field
+  role: "user" | "admin" ;  
+  profilePicture?: string;
+  notifications: INotification[];
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
+
+// a  schema for notifications
+const NotificationSchema = new mongoose.Schema<INotification>(
+  {
+    message: { type: String, required: true},
+    date: { type: Date, default: Date.now},
+    read: { type: Boolean, default: false},
+  },
+  {_id: false}
+)
 
 const UserSchema = new mongoose.Schema<IUser>(
   {
