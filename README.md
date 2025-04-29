@@ -93,6 +93,9 @@ Sample login body:
 
 **Note:** These endpoints are accessible only to the general admin (`GENERAL_ADMIN_EMAIL`).
 
+## User Profile
+- `GET /api/users/me` → Retrieves user profile information.
+- `PUT /api/users/me` → Updates user profile details.
 ---
 
 ### Only Admin
